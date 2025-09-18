@@ -1,0 +1,114 @@
+{
+  "measurements": [
+    {
+      "id": "MEAS_1758155726",
+      "sampleId": "SAMPLE_001",
+      "area_pixels": 1391,
+      "area_um2": 9.37,
+      "dataHora": "2025-09-17 21:35:26",
+      "imagemId": "IMG_1758155726",
+      "nomeImagem": "measurement_1758155726.jpg",
+      "operator": "Carlos Oliveira",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1758159326",
+      "sampleId": "SAMPLE_003",
+      "area_pixels": 872,
+      "area_um2": 17.82,
+      "dataHora": "2025-09-17 22:35:26",
+      "imagemId": "IMG_1758159326",
+      "nomeImagem": "measurement_1758159326.jpg",
+      "operator": "Dr. João Silva",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1758162926",
+      "sampleId": "SAMPLE_002",
+      "area_pixels": 828,
+      "area_um2": 9.73,
+      "dataHora": "2025-09-17 23:35:26",
+      "imagemId": "IMG_1758162926",
+      "nomeImagem": "measurement_1758162926.jpg",
+      "operator": "Maria Santos",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1758166526",
+      "sampleId": "SAMPLE_003",
+      "area_pixels": 1374,
+      "area_um2": 8.68,
+      "dataHora": "2025-09-18 00:35:26",
+      "imagemId": "IMG_1758166526",
+      "nomeImagem": "measurement_1758166526.jpg",
+      "operator": "Dr. João Silva",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1758170126",
+      "sampleId": "SAMPLE_001",
+      "area_pixels": 1004,
+      "area_um2": 19.53,
+      "dataHora": "2025-09-18 01:35:26",
+      "imagemId": "IMG_1758170126",
+      "nomeImagem": "measurement_1758170126.jpg",
+      "operator": "Maria Santos",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1758173726",
+      "sampleId": "SAMPLE_001",
+      "area_pixels": 1297,
+      "area_um2": 18.38,
+      "dataHora": "2025-09-18 02:35:26",
+      "imagemId": "IMG_1758173726",
+      "nomeImagem": "measurement_1758173726.jpg",
+      "operator": "Carlos Oliveira",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1758177326",
+      "sampleId": "SAMPLE_002",
+      "area_pixels": 1829,
+      "area_um2": 16.1,
+      "dataHora": "2025-09-18 03:35:26",
+      "imagemId": "IMG_1758177326",
+      "nomeImagem": "measurement_1758177326.jpg",
+      "operator": "Carlos Oliveira",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1758180926",
+      "sampleId": "SAMPLE_003",
+      "area_pixels": 1142,
+      "area_um2": 18.51,
+      "dataHora": "2025-09-18 04:35:26",
+      "imagemId": "IMG_1758180926",
+      "nomeImagem": "measurement_1758180926.jpg",
+      "operator": "Carlos Oliveira",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1758184526",
+      "sampleId": "SAMPLE_002",
+      "area_pixels": 1925,
+      "area_um2": 15.77,
+      "dataHora": "2025-09-18 05:35:26",
+      "imagemId": "IMG_1758184526",
+      "nomeImagem": "measurement_1758184526.jpg",
+      "operator": "Maria Santos",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1758188126",
+      "sampleId": "SAMPLE_003",
+      "area_pixels": 1471,
+      "area_um2": 17.71,
+      "dataHora": "2025-09-18 06:35:26",
+      "imagemId": "IMG_1758188126",
+      "nomeImagem": "measurement_1758188126.jpg",
+      "operator": "Dr. João Silva",
+      "scale_pixels_per_um": 10.0
+    }
+  ]
+}

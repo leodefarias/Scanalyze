@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema de Micromedição</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🔬 Sistema de Micromedição Automatizada</h1>
+            <p>Dashboard de Visualização de Medições</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav">
+            <button class="nav-btn active" onclick="showSection('overview')">Visão Geral</button>
+            <button class="nav-btn" onclick="showSection('measurements')">Medições</button>
+            <button class="nav-btn" onclick="showSection('samples')">Amostras</button>
+            <button class="nav-btn" onclick="showSection('charts')">Gráficos</button>
+            <button class="nav-btn" onclick="showSection('settings')">Configurações</button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Overview Section -->
+            <section id="overview" class="section active">
+                <h2>Visão Geral</h2>
+                
+                <!-- Statistics Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-content">
+                            <h3>Total de Medições</h3>
+                            <p class="stat-number" id="total-measurements">0</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">🧪</div>
+                        <div class="stat-content">
+                            <h3>Amostras Analisadas</h3>
+                            <p class="stat-number" id="total-samples">0</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">📏</div>
+                        <div class="stat-content">
+                            <h3>Área Média</h3>
+                            <p class="stat-number" id="average-area">0.00 μm²</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">⏱️</div>
+                        <div class="stat-content">
+                            <h3>Última Medição</h3>
+                            <p class="stat-number" id="last-measurement">Nunca</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Measurements -->
+                <div class="recent-section">
+                    <h3>Medições Recentes</h3>
+                    <div class="table-container">
+                        <table class="data-table" id="recent-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Amostra</th>
+                                    <th>Área (μm²)</th>
+                                    <th>Data/Hora</th>
+                                    <th>Operador</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-measurements">
+                                <!-- Dados carregados dinamicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Measurements Section -->
+            <section id="measurements" class="section">
+                <h2>Todas as Medições</h2>
+                
+                <!-- Filters -->
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="date-filter">Filtrar por Data:</label>
+                        <input type="date" id="date-filter" onchange="applyFilters()">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="sample-filter">Filtrar por Amostra:</label>
+                        <select id="sample-filter" onchange="applyFilters()">
+                            <option value="">Todas as amostras</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="operator-filter">Filtrar por Operador:</label>
+                        <select id="operator-filter" onchange="applyFilters()">
+                            <option value="">Todos os operadores</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn-secondary" onclick="clearFilters()">Limpar Filtros</button>
+                </div>
+                
+                <!-- Measurements Table -->
+                <div class="table-container">
+                    <table class="data-table" id="measurements-table">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('id')">ID 📋</th>
+                                <th onclick="sortTable('sampleId')">Amostra 🧪</th>
+                                <th onclick="sortTable('area_um2')">Área (μm²) 📏</th>
+                                <th onclick="sortTable('area_pixels')">Área (pixels) 📐</th>
+                                <th onclick="sortTable('dataHora')">Data/Hora ⏰</th>
+                                <th onclick="sortTable('operator')">Operador 👤</th>
+                                <th>Imagem 📷</th>
+                            </tr>
+                        </thead>
+                        <tbody id="all-measurements">
+                            <!-- Dados carregados dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Samples Section -->
+            <section id="samples" class="section">
+                <h2>Amostras</h2>
+                <div class="samples-grid" id="samples-grid">
+                    <!-- Dados carregados dinamicamente -->
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section id="charts" class="section">
+                <h2>Gráficos e Análises</h2>
+                
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <h3>Distribuição de Áreas</h3>
+                        <canvas id="area-distribution-chart"></canvas>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h3>Medições por Dia</h3>
+                        <canvas id="measurements-timeline-chart"></canvas>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h3>Medições por Operador</h3>
+                        <canvas id="operator-chart"></canvas>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h3>Tendência de Áreas</h3>
+                        <canvas id="area-trend-chart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="section">
+                <h2>Configurações</h2>
+                
+                <div class="settings-grid">
+                    <div class="setting-card">
+                        <h3>Carregar Dados</h3>
+                        <p>Carregue um arquivo JSON com medições</p>
+                        <input type="file" id="file-input" accept=".json" onchange="loadDataFile()">
+                        <button class="btn-primary" onclick="document.getElementById('file-input').click()">
+                            Selecionar Arquivo
+                        </button>
+                    </div>
+                    
+                    <div class="setting-card">
+                        <h3>Atualização Automática</h3>
+                        <p>Recarregar dados automaticamente</p>
+                        <label class="switch">
+                            <input type="checkbox" id="auto-refresh" onchange="toggleAutoRefresh()">
+                            <span class="slider"></span>
+                        </label>
+                        <div class="refresh-interval">
+                            <label for="refresh-interval">Intervalo (segundos):</label>
+                            <input type="number" id="refresh-interval" value="30" min="5" max="300">
+                        </div>
+                    </div>
+                    
+                    <div class="setting-card">
+                        <h3>Exportar Dados</h3>
+                        <p>Baixar dados em diferentes formatos</p>
+                        <button class="btn-secondary" onclick="exportData('csv')">Exportar CSV</button>
+                        <button class="btn-secondary" onclick="exportData('json')">Exportar JSON</button>
+                    </div>
+                    
+                    <div class="setting-card">
+                        <h3>Limpar Cache</h3>
+                        <p>Limpar dados armazenados localmente</p>
+                        <button class="btn-danger" onclick="clearCache()">Limpar Cache</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 Sistema de Micromedição Automatizada - Dashboard Web</p>
+            <p>Última atualização: <span id="last-update">Nunca</span></p>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Carregando dados...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="dashboard.js"></script>
+</body>
+</html>

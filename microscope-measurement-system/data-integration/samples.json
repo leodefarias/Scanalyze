@@ -1,0 +1,25 @@
+{
+  "samples": [
+    {
+      "id": "SAMPLE_001",
+      "nome": "Sangue Paciente A",
+      "tipo": "Sangue",
+      "dataColeta": "2024-01-15 08:00:00",
+      "operadorResponsavel": "Dr. João Silva"
+    },
+    {
+      "id": "SAMPLE_002",
+      "nome": "Tecido Muscular",
+      "tipo": "Tecido",
+      "dataColeta": "2024-01-15 09:30:00",
+      "operadorResponsavel": "Maria Santos"
+    },
+    {
+      "id": "SAMPLE_003",
+      "nome": "Célula Neural",
+      "tipo": "Neurônio",
+      "dataColeta": "2024-01-15 15:00:00",
+      "operadorResponsavel": "Carlos Oliveira"
+    }
+  ]
+}

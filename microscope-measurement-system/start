@@ -1,0 +1,3 @@
+#!/bin/bash
+# Sistema de Micromedição Automatizada - Launcher Principal
+exec scripts/start.sh "$@"
