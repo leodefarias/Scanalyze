@@ -1,0 +1,24 @@
+Operador cadastrado com sucesso: Dr. João Silva
+Operador cadastrado com sucesso: Maria Santos
+Operador cadastrado com sucesso: Carlos Oliveira
+Microscópio Olympus BX53 funcionando corretamente
+Microscópio cadastrado com sucesso: Olympus BX53
+Microscópio Nikon Eclipse E200 funcionando corretamente
+Microscópio cadastrado com sucesso: Nikon Eclipse E200
+Amostra cadastrada com sucesso: Sangue Paciente A
+Amostra cadastrada com sucesso: Tecido Muscular
+Amostra cadastrada com sucesso: Célula Neural
+Sistema inicializado com dados padrão para API REST
+❌ Erro ao iniciar servidor: Endereço já em uso
+java.net.BindException: Endereço já em uso
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:565)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:344)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:301)
+	at java.base/sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:89)
+	at jdk.httpserver/sun.net.httpserver.ServerImpl.<init>(ServerImpl.java:144)
+	at jdk.httpserver/sun.net.httpserver.HttpServerImpl.<init>(HttpServerImpl.java:50)
+	at jdk.httpserver/sun.net.httpserver.DefaultHttpServerProvider.createHttpServer(DefaultHttpServerProvider.java:35)
+	at jdk.httpserver/com.sun.net.httpserver.HttpServer.create(HttpServer.java:152)
+	at br.com.micromedicao.api.ApiServer.start(ApiServer.java:38)
+	at br.com.micromedicao.api.ApiServer.main(ApiServer.java:356)

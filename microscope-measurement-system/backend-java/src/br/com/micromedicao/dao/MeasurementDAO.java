@@ -64,7 +64,7 @@ public class MeasurementDAO {
 
             stmt.setString(1, measurement.getId());
             stmt.setString(2, measurement.getSample().getId()); // Sample ID
-            stmt.setString(3, measurement.getImagem().getImageId()); // Image ID
+            stmt.setString(3, measurement.getImagem().getId()); // Image ID
             // Aqui assumimos que temos acesso ao microscope ID - pode precisar de ajuste
             stmt.setString(4, "MICRO001"); // Default microscope - ajustar conforme necessário
             // Para operator, precisamos determinar como obter o ID - ajustar conforme necessário
@@ -549,7 +549,7 @@ public class MeasurementDAO {
 
         String imageId = rs.getString("IMAGE_ID");
         String arquivo = rs.getString("IMAGE_ARQUIVO");
-        MicroscopyImage image = new MicroscopyImage(imageId, arquivo, sample, null);
+        MicroscopyImage image = new MicroscopyImage(imageId, arquivo, null, null);
 
         // Criar measurement
         String measurementId = rs.getString("MEASUREMENT_ID");

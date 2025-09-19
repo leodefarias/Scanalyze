@@ -234,6 +234,45 @@ public class DataIntegration {
         }
     }
 
+    /**
+     * Exporta amostras para arquivo JSON compatível com o frontend.
+     *
+     * @param caminhoArquivo Caminho para o arquivo JSON
+     * @return boolean true se a exportação foi bem-sucedida
+     */
+    public boolean exportarAmostrasJSON(String caminhoArquivo) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(caminhoArquivo))) {
+            writer.println("{");
+            writer.println("  \"samples\": [");
+
+            List<Sample> samples = service.listarSamples();
+            for (int i = 0; i < samples.size(); i++) {
+                Sample sample = samples.get(i);
+                writer.println("    {");
+                writer.println("      \"id\": \"" + sample.getId() + "\",");
+                writer.println("      \"nome\": \"" + sample.getNome() + "\",");
+                writer.println("      \"tipo\": \"" + sample.getTipo() + "\",");
+                writer.println("      \"dataColeta\": \"" + sample.getDataColeta().format(dateFormatter) + "\",");
+                writer.println("      \"operadorResponsavel\": \"" + sample.getOperadorResponsavel() + "\"");
+                if (i < samples.size() - 1) {
+                    writer.println("    },");
+                } else {
+                    writer.println("    }");
+                }
+            }
+
+            writer.println("  ]");
+            writer.println("}");
+
+            System.out.println("Amostras exportadas em JSON para: " + caminhoArquivo);
+            return true;
+
+        } catch (IOException e) {
+            System.out.println("Erro ao exportar amostras JSON: " + e.getMessage());
+            return false;
+        }
+    }
+
     // ===== MÉTODOS DE INTEGRAÇÃO JSON =====
 
     /**

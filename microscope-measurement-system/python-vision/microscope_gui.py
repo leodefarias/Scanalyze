@@ -17,6 +17,15 @@ import time
 from datetime import datetime
 from microscope_vision import MicroscopeVision
 import os
+import json
+
+# Try to import requests, if not available, API features will be disabled
+try:
+    import requests
+    REQUESTS_AVAILABLE = True
+except ImportError:
+    REQUESTS_AVAILABLE = False
+    print("⚠️ Módulo 'requests' não encontrado. API REST desabilitada.")
 
 
 class MicroscopeGUI:
@@ -42,6 +51,11 @@ class MicroscopeGUI:
         self.is_running = False
         self.current_photo = None
         self.update_thread = None
+
+        # API REST integration
+        self.api_base_url = "http://localhost:8080/api"
+        self.api_available = False
+        self.check_api_connection()
         
         # Variáveis de interface
         self.sample_id_var = tk.StringVar(value=f"SAMPLE_{int(time.time())}")
@@ -237,10 +251,17 @@ class MicroscopeGUI:
         ttk.Label(status_frame, textvariable=self.status_var).pack(side=tk.LEFT, padx=(5, 0))
         
         # Indicador de gravação
-        self.recording_indicator = ttk.Label(status_frame, text="●", 
+        self.recording_indicator = ttk.Label(status_frame, text="●",
                                            foreground="red", font=("Arial", 20))
         self.recording_indicator.pack(side=tk.RIGHT)
         self.recording_indicator.pack_forget()  # Inicialmente oculto
+
+        # Indicador de API
+        api_status_text = "API ✅" if self.api_available else "API ❌"
+        api_color = "green" if self.api_available else "red"
+        self.api_indicator = ttk.Label(status_frame, text=api_status_text,
+                                     foreground=api_color, font=("Arial", 10, "bold"))
+        self.api_indicator.pack(side=tk.RIGHT, padx=(10, 5))
         
     def start_camera(self):
         """Inicia a câmera e o processamento de vídeo."""
@@ -361,42 +382,70 @@ class MicroscopeGUI:
         if not self.is_running:
             messagebox.showwarning("Aviso", "A câmera deve estar ativa para registrar medições")
             return
-            
+
         try:
             sample_id = self.sample_id_var.get().strip()
             operator = self.operator_var.get().strip()
-            
+
             if not sample_id:
                 messagebox.showwarning("Aviso", "ID da amostra é obrigatório")
                 return
-                
+
             if not operator:
                 operator = "Sistema"
-                
-            # Registra a medição
+
+            # Registra a medição localmente (sempre salva em arquivos)
             measurement_data = self.vision.save_measurement(sample_id, operator)
-            
+
             if measurement_data:
+                # Tenta registrar via API se disponível
+                api_success = False
+                if self.api_available:
+                    # Primeiro verifica se a amostra existe, senão cria automaticamente
+                    try:
+                        response = requests.get(f"{self.api_base_url}/samples/{sample_id}", timeout=5)
+                        if response.status_code != 200 or not response.json().get('found'):
+                            # Amostra não existe, cria automaticamente
+                            self.create_sample_via_api(sample_id, f"Amostra {sample_id}", "Captura GUI", operator)
+                    except:
+                        # Se der erro, cria amostra mesmo assim
+                        self.create_sample_via_api(sample_id, f"Amostra {sample_id}", "Captura GUI", operator)
+
+                    # Registra a medição via API
+                    api_success = self.create_measurement_via_api(
+                        measurement_data['id'],
+                        measurement_data['sampleId'],
+                        measurement_data['area_um2'],
+                        measurement_data['imagemId']
+                    )
+
                 # Mostra confirmação
+                api_status = "✅ Salvo automaticamente na API" if api_success else "⚠️ Salvo apenas em arquivos"
                 message = f"""Medição registrada com sucesso!
-                
+
 ID: {measurement_data['id']}
 Amostra: {measurement_data['sampleId']}
 Área: {measurement_data['area_um2']} μm² ({measurement_data['area_pixels']} pixels)
 Operador: {measurement_data['operator']}
 Imagem: {measurement_data['nomeImagem']}
 
+{api_status}
 Dados salvos em CSV e JSON."""
-                
+
                 messagebox.showinfo("Medição Registrada", message)
-                
+
                 # Atualiza ID da amostra para próxima medição
                 self.sample_id_var.set(f"SAMPLE_{int(time.time())}")
-                
-                self.status_var.set(f"Última medição: {measurement_data['id']}")
+
+                status_msg = f"Última medição: {measurement_data['id']}"
+                if api_success:
+                    status_msg += " (API ✅)"
+                else:
+                    status_msg += " (Arquivo)"
+                self.status_var.set(status_msg)
             else:
                 messagebox.showerror("Erro", "Falha ao registrar medição")
-                
+
         except Exception as e:
             messagebox.showerror("Erro", f"Erro ao registrar medição: {e}")
             
@@ -486,6 +535,81 @@ Dados salvos em CSV e JSON."""
         except Exception as e:
             messagebox.showerror("Erro", f"Erro ao detectar câmeras: {e}")
             self.status_var.set("Erro na detecção de câmeras")
+
+    def check_api_connection(self):
+        """Verifica se a API REST está disponível."""
+        if not REQUESTS_AVAILABLE:
+            self.api_available = False
+            print("⚠️ Módulo 'requests' não disponível - API REST desabilitada")
+            return
+
+        try:
+            response = requests.get(f"{self.api_base_url}/health", timeout=3)
+            if response.status_code == 200:
+                self.api_available = True
+                print("✅ API REST conectada - salvamento automático habilitado")
+            else:
+                self.api_available = False
+                print("⚠️ API REST indisponível - usando salvamento em arquivos")
+        except:
+            self.api_available = False
+            print("⚠️ API REST indisponível - usando salvamento em arquivos")
+
+    def create_sample_via_api(self, sample_id, nome, tipo, operador_responsavel):
+        """Cadastra nova amostra via API REST."""
+        if not self.api_available:
+            return False
+
+        try:
+            data = {
+                'id': sample_id,
+                'nome': nome,
+                'tipo': tipo,
+                'operadorResponsavel': operador_responsavel
+            }
+
+            response = requests.post(f"{self.api_base_url}/samples", data=data, timeout=10)
+            result = response.json()
+
+            if result.get('success'):
+                print(f"✅ Amostra {sample_id} cadastrada via API")
+                return True
+            else:
+                print(f"❌ Erro API ao cadastrar amostra: {result.get('message', 'Erro desconhecido')}")
+                return False
+
+        except Exception as e:
+            print(f"❌ Erro de conexão ao cadastrar amostra via API: {e}")
+            return False
+
+    def create_measurement_via_api(self, measurement_id, sample_id, area, imagem_id=None):
+        """Registra nova medição via API REST."""
+        if not self.api_available:
+            return False
+
+        try:
+            data = {
+                'id': measurement_id,
+                'sampleId': sample_id,
+                'area': str(area)
+            }
+
+            if imagem_id:
+                data['imagemId'] = imagem_id
+
+            response = requests.post(f"{self.api_base_url}/measurements", data=data, timeout=10)
+            result = response.json()
+
+            if result.get('success'):
+                print(f"✅ Medição {measurement_id} registrada via API (Área: {area:.2f} μm²)")
+                return True
+            else:
+                print(f"❌ Erro API ao registrar medição: {result.get('message', 'Erro desconhecido')}")
+                return False
+
+        except Exception as e:
+            print(f"❌ Erro de conexão ao registrar medição via API: {e}")
+            return False
 
     def on_closing(self):
         """Chamado quando a janela está sendo fechada."""

@@ -3,229 +3,806 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Sistema de Micromedição</title>
+    <title>Scanalyze - Dashboard</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <h1>🔬 Sistema de Micromedição Automatizada</h1>
-            <p>Dashboard de Visualização de Medições</p>
-        </header>
+    <div class="min-h-screen bg-neutral-100 text-neutral-900">
+        <div class="mx-auto max-w-[1200px] px-4">
+            <div class="grid grid-cols-12 gap-6 py-6">
+                <!-- Sidebar -->
+                <aside class="col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 2xl:col-span-3">
+                    <div class="sticky top-6 rounded-3xl bg-white p-6 shadow-sm">
+                        <!-- Brand -->
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                            <div class="text-xl font-semibold">Scanalyze</div>
+                        </div>
 
-        <!-- Navigation -->
-        <nav class="nav">
-            <button class="nav-btn active" onclick="showSection('overview')">Visão Geral</button>
-            <button class="nav-btn" onclick="showSection('measurements')">Medições</button>
-            <button class="nav-btn" onclick="showSection('samples')">Amostras</button>
-            <button class="nav-btn" onclick="showSection('charts')">Gráficos</button>
-            <button class="nav-btn" onclick="showSection('settings')">Configurações</button>
-        </nav>
+                        <!-- Profile -->
+                        <div class="mt-8 flex flex-col items-center text-center">
+                            <div class="w-20 h-20 rounded-full bg-neutral-200 flex items-center justify-center text-lg font-semibold">
+                                OP
+                            </div>
+                            <p class="mt-4 text-sm text-neutral-500">Welcome back,</p>
+                            <p class="text-sm font-semibold">Operador</p>
+                        </div>
 
-        <!-- Main Content -->
-        <main class="main">
-            <!-- Overview Section -->
-            <section id="overview" class="section active">
-                <h2>Visão Geral</h2>
-                
-                <!-- Statistics Cards -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon">📊</div>
-                        <div class="stat-content">
-                            <h3>Total de Medições</h3>
-                            <p class="stat-number" id="total-measurements">0</p>
+                        <!-- Nav -->
+                        <nav class="mt-8 space-y-2">
+                            <a class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm hover:bg-neutral-100 nav-link active" href="#" data-section="dashboard">
+                                <svg class="w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5h8a2 2 0 012 2v8a2 2 0 01-2 2H8a2 2 0 01-2-2V7a2 2 0 012-2z"></path>
+                                </svg>
+                                Dashboard
+                            </a>
+                            <a class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm hover:bg-neutral-100 nav-link" href="#" data-section="measurements">
+                                <svg class="w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
+                                Medições
+                            </a>
+                            <a class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm hover:bg-neutral-100 nav-link" href="#" data-section="samples">
+                                <svg class="w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                Amostras
+                            </a>
+                            <a class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm hover:bg-neutral-100 nav-link" href="#" data-section="settings">
+                                <svg class="w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                Configurações
+                            </a>
+                        </nav>
+
+                        <!-- Footer -->
+                        <div class="mt-10 border-t border-neutral-200 pt-4">
+                            <button class="flex items-center gap-3 rounded-xl px-3 py-2 text-sm hover:bg-neutral-100 w-full text-left">
+                                <svg class="w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                                </svg>
+                                Sair
+                            </button>
                         </div>
                     </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">🧪</div>
-                        <div class="stat-content">
-                            <h3>Amostras Analisadas</h3>
-                            <p class="stat-number" id="total-samples">0</p>
+                </aside>
+
+                <!-- Main -->
+                <main class="col-span-12 md:col-span-9">
+                    <h1 class="text-2xl font-extrabold tracking-tight">Dashboard</h1>
+
+                    <!-- Dashboard Section -->
+                    <div id="dashboard-section" class="section-content active">
+                        <div class="mt-4 grid grid-cols-12 gap-6">
+                            <!-- Left column cards -->
+                            <section class="col-span-12 lg:col-span-6 space-y-6">
+                                <!-- KPI Card -->
+                                <div class="rounded-3xl bg-white p-6 shadow-sm">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <p class="text-xs font-semibold text-neutral-500">Medições Totais</p>
+                                            <div class="mt-2 text-3xl font-semibold" id="total-measurements">0</div>
+
+                                            <div class="mt-5 space-y-3">
+                                                <div class="flex items-center gap-2 text-sm">
+                                                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-300"></span>
+                                                    <span class="text-neutral-500">Área Média</span>
+                                                    <span class="ml-auto font-medium" id="average-area">0.00 μm²</span>
+                                                </div>
+                                                <div class="flex items-center gap-2 text-sm">
+                                                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-sky-300"></span>
+                                                    <span class="text-neutral-500">Amostras</span>
+                                                    <span class="ml-auto font-medium" id="total-samples">0</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Circular motif -->
+                                        <div class="relative">
+                                            <div class="w-40 h-40 rounded-full border-[14px] border-amber-300/60 flex items-center justify-center">
+                                                <div class="w-20 h-20 rounded-full bg-rose-50 flex items-center justify-center">
+                                                    <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke="currentColor" class="text-rose-300">
+                                                        <circle cx="12" cy="12" r="3" />
+                                                        <circle cx="4" cy="12" r="2" />
+                                                        <circle cx="20" cy="12" r="2" />
+                                                        <line x1="6" y1="12" x2="9" y2="12" />
+                                                        <line x1="15" y1="12" x2="18" y2="12" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <button class="absolute top-0 right-0 p-1 rounded-full hover:bg-neutral-100">
+                                                <svg class="w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01m-7 0a.01.01 0 01.01.01M19 12a.01.01 0 01.01.01"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Progress -->
+                                    <div class="mt-6">
+                                        <div class="flex items-center justify-between text-[12px] text-neutral-500">
+                                            <span>Progresso das medições</span>
+                                            <span>
+                                                <span class="font-medium text-neutral-800" id="progress-current">0</span>/<span id="progress-total">100</span>
+                                            </span>
+                                        </div>
+                                        <div class="mt-2">
+                                            <div class="w-full h-2 rounded-full bg-neutral-200 overflow-hidden">
+                                                <div class="h-full bg-neutral-800" id="progress-bar" style="width: 0%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Small cards row -->
+                                    <div class="mt-5 grid grid-cols-2 gap-4">
+                                        <div class="h-20 rounded-2xl border border-neutral-200 bg-neutral-50 flex items-center justify-center">
+                                            <span class="text-xs text-neutral-500">Última Medição</span>
+                                        </div>
+                                        <div class="h-20 rounded-2xl bg-rose-100 flex items-center justify-center">
+                                            <span class="text-xs text-neutral-700" id="last-measurement">Nunca</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- List Card -->
+                                <div class="rounded-3xl bg-white p-0 shadow-sm">
+                                    <div class="flex items-center justify-between px-6 pt-5 pb-3">
+                                        <div class="text-sm font-semibold">Medições Recentes</div>
+                                        <button class="text-xs font-medium text-neutral-500 hover:text-neutral-800" onclick="showSection('measurements')">Ver Todas</button>
+                                    </div>
+                                    <div class="px-6 border-t border-neutral-200"></div>
+                                    <div class="px-6" id="recent-measurements-list">
+                                        <!-- Dados carregados dinamicamente -->
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- Right column -->
+                            <section class="col-span-12 lg:col-span-6 space-y-6">
+                                <!-- Area Trend Chart -->
+                                <div class="rounded-3xl bg-white p-6 shadow-sm">
+                                    <div class="flex items-start justify-between">
+                                        <div class="text-sm font-semibold">Tendência de Áreas</div>
+                                        <div class="text-xs text-neutral-500 flex items-center gap-1">
+                                            <select id="chart-period" class="text-xs border-none bg-transparent" onchange="updateChartPeriod()">
+                                                <option value="7">Últimos 7 dias</option>
+                                                <option value="30">Últimos 30 dias</option>
+                                                <option value="90">Últimos 90 dias</option>
+                                            </select>
+                                            ▾
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 h-56">
+                                        <canvas id="area-trend-chart"></canvas>
+                                    </div>
+                                </div>
+
+                                <!-- Statistics Cards -->
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 p-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 rounded-lg bg-blue-200 flex items-center justify-center">
+                                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <div class="text-lg font-bold text-blue-800" id="max-area">0.00</div>
+                                                <div class="text-xs text-blue-600">Área Máxima</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl bg-gradient-to-br from-green-50 to-green-100 p-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 rounded-lg bg-green-200 flex items-center justify-center">
+                                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <div class="text-lg font-bold text-green-800" id="min-area">0.00</div>
+                                                <div class="text-xs text-green-600">Área Mínima</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl bg-gradient-to-br from-purple-50 to-purple-100 p-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 rounded-lg bg-purple-200 flex items-center justify-center">
+                                                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <div class="text-lg font-bold text-purple-800" id="std-deviation">0.00</div>
+                                                <div class="text-xs text-purple-600">Desvio Padrão</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl bg-gradient-to-br from-orange-50 to-orange-100 p-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 rounded-lg bg-orange-200 flex items-center justify-center">
+                                                <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <div class="text-lg font-bold text-orange-800" id="avg-time">0.0h</div>
+                                                <div class="text-xs text-orange-600">Tempo Médio</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
                         </div>
                     </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">📏</div>
-                        <div class="stat-content">
-                            <h3>Área Média</h3>
-                            <p class="stat-number" id="average-area">0.00 μm²</p>
+
+                    <!-- Measurements Section -->
+                    <div id="measurements-section" class="section-content" style="display: none;">
+                        <div class="mt-4">
+                            <h2 class="text-xl font-bold mb-4">Todas as Medições</h2>
+
+                            <!-- Analytics Cards -->
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                                <div class="bg-white rounded-2xl p-4 shadow-sm">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="text-sm text-neutral-600">Total de Registros</div>
+                                            <div class="text-2xl font-bold text-neutral-800" id="filtered-count">0</div>
+                                        </div>
+                                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-2xl p-4 shadow-sm">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="text-sm text-neutral-600">Área Média Filtrada</div>
+                                            <div class="text-2xl font-bold text-green-600" id="filtered-avg">0.00 μm²</div>
+                                        </div>
+                                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-2xl p-4 shadow-sm">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="text-sm text-neutral-600">Amostras Únicas</div>
+                                            <div class="text-2xl font-bold text-purple-600" id="filtered-samples">0</div>
+                                        </div>
+                                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 7.172V5L8 4z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-2xl p-4 shadow-sm">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="text-sm text-neutral-600">Operadores Ativos</div>
+                                            <div class="text-2xl font-bold text-orange-600" id="filtered-operators">0</div>
+                                        </div>
+                                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Advanced Filters -->
+                            <div class="bg-white rounded-2xl p-6 mb-6 shadow-sm">
+                                <h3 class="text-lg font-semibold mb-4">Filtros Avançados</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-neutral-700 mb-1">Data Inicial:</label>
+                                        <input type="date" id="start-date-filter" class="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-neutral-700 mb-1">Data Final:</label>
+                                        <input type="date" id="end-date-filter" class="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-neutral-700 mb-1">Amostra:</label>
+                                        <select id="sample-filter" class="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm">
+                                            <option value="">Todas</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-neutral-700 mb-1">Operador:</label>
+                                        <select id="operator-filter" class="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm">
+                                            <option value="">Todos</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-neutral-700 mb-1">Buscar ID:</label>
+                                        <input type="text" id="search-filter" placeholder="ID da medição" class="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm">
+                                    </div>
+                                    <div class="flex items-end gap-2">
+                                        <button onclick="applyFilters()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium">
+                                            Filtrar
+                                        </button>
+                                        <button onclick="clearFilters()" class="px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 text-sm">
+                                            Limpar
+                                        </button>
+                                        <button onclick="exportFilteredData()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm">
+                                            Exportar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Charts Section -->
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                                    <h3 class="text-lg font-semibold mb-4">Distribuição de Áreas</h3>
+                                    <div class="h-64">
+                                        <canvas id="area-distribution-chart"></canvas>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                                    <h3 class="text-lg font-semibold mb-4">Medições por Operador</h3>
+                                    <div class="h-64">
+                                        <canvas id="operator-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Measurements Table -->
+                            <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+                                <div class="px-6 py-4 border-b border-neutral-200">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-lg font-semibold">Tabela de Medições</h3>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-sm text-neutral-600">Mostrar:</span>
+                                            <select id="page-size" class="px-2 py-1 border border-neutral-300 rounded text-sm" onchange="updatePageSize()">
+                                                <option value="10">10</option>
+                                                <option value="25" selected>25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                            <span class="text-sm text-neutral-600">por página</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full">
+                                        <thead class="bg-neutral-50">
+                                            <tr>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider cursor-pointer hover:bg-neutral-100" onclick="sortTable('id')">
+                                                    <div class="flex items-center gap-1">
+                                                        ID
+                                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                                                        </svg>
+                                                    </div>
+                                                </th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider cursor-pointer hover:bg-neutral-100" onclick="sortTable('sampleId')">
+                                                    <div class="flex items-center gap-1">
+                                                        Amostra
+                                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                                                        </svg>
+                                                    </div>
+                                                </th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider cursor-pointer hover:bg-neutral-100" onclick="sortTable('area_um2')">
+                                                    <div class="flex items-center gap-1">
+                                                        Área (μm²)
+                                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                                                        </svg>
+                                                    </div>
+                                                </th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider cursor-pointer hover:bg-neutral-100" onclick="sortTable('area_pixels')">
+                                                    <div class="flex items-center gap-1">
+                                                        Área (pixels)
+                                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                                                        </svg>
+                                                    </div>
+                                                </th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider cursor-pointer hover:bg-neutral-100" onclick="sortTable('dataHora')">
+                                                    <div class="flex items-center gap-1">
+                                                        Data/Hora
+                                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                                                        </svg>
+                                                    </div>
+                                                </th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider cursor-pointer hover:bg-neutral-100" onclick="sortTable('operator')">
+                                                    <div class="flex items-center gap-1">
+                                                        Operador
+                                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+                                                        </svg>
+                                                    </div>
+                                                </th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="all-measurements" class="bg-white divide-y divide-neutral-200">
+                                            <!-- Dados carregados dinamicamente -->
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Pagination -->
+                                <div class="px-6 py-4 border-t border-neutral-200">
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-sm text-neutral-600" id="pagination-info">
+                                            Mostrando 0 de 0 registros
+                                        </div>
+                                        <div class="flex items-center gap-2" id="pagination-controls">
+                                            <!-- Controles de paginação serão inseridos aqui -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon">⏱️</div>
-                        <div class="stat-content">
-                            <h3>Última Medição</h3>
-                            <p class="stat-number" id="last-measurement">Nunca</p>
+
+                    <!-- Samples Section -->
+                    <div id="samples-section" class="section-content" style="display: none;">
+                        <div class="mt-4">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-xl font-bold">Análise de Amostras</h2>
+                                <button onclick="refreshSampleData()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                    </svg>
+                                    Atualizar Amostras
+                                </button>
+                            </div>
+
+                            <!-- Sample Analytics -->
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                                <div class="bg-white rounded-2xl p-4 shadow-sm">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="text-sm text-neutral-600">Total de Amostras</div>
+                                            <div class="text-2xl font-bold text-blue-600" id="total-samples-count">0</div>
+                                        </div>
+                                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 7.172V5L8 4z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-2xl p-4 shadow-sm">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="text-sm text-neutral-600">Mais Ativa</div>
+                                            <div class="text-lg font-bold text-green-600" id="most-active-sample">-</div>
+                                        </div>
+                                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-2xl p-4 shadow-sm">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="text-sm text-neutral-600">Tipos Únicos</div>
+                                            <div class="text-2xl font-bold text-purple-600" id="unique-types-count">0</div>
+                                        </div>
+                                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-2xl p-4 shadow-sm">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <div class="text-sm text-neutral-600">Medições Totais</div>
+                                            <div class="text-2xl font-bold text-orange-600" id="total-sample-measurements">0</div>
+                                        </div>
+                                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sample Type Distribution Chart -->
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                                    <h3 class="text-lg font-semibold mb-4">Distribuição por Tipo</h3>
+                                    <div class="h-64">
+                                        <canvas id="sample-type-chart"></canvas>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                                    <h3 class="text-lg font-semibold mb-4">Atividade por Amostra</h3>
+                                    <div class="h-64">
+                                        <canvas id="sample-activity-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Samples Grid -->
+                            <div class="bg-white rounded-2xl p-6 shadow-sm">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h3 class="text-lg font-semibold">Catálogo de Amostras</h3>
+                                    <div class="flex items-center gap-2">
+                                        <input type="text" id="sample-search" placeholder="Buscar amostra..." class="px-3 py-2 border border-neutral-300 rounded-lg text-sm" onkeyup="filterSamples()">
+                                        <select id="sample-type-filter" class="px-3 py-2 border border-neutral-300 rounded-lg text-sm" onchange="filterSamples()">
+                                            <option value="">Todos os tipos</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="samples-grid">
+                                    <!-- Dados carregados dinamicamente -->
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Recent Measurements -->
-                <div class="recent-section">
-                    <h3>Medições Recentes</h3>
-                    <div class="table-container">
-                        <table class="data-table" id="recent-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Amostra</th>
-                                    <th>Área (μm²)</th>
-                                    <th>Data/Hora</th>
-                                    <th>Operador</th>
-                                </tr>
-                            </thead>
-                            <tbody id="recent-measurements">
-                                <!-- Dados carregados dinamicamente -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
+                    <!-- Settings Section -->
+                    <div id="settings-section" class="section-content" style="display: none;">
+                        <div class="mt-4">
+                            <h2 class="text-xl font-bold mb-4">Configurações do Sistema</h2>
 
-            <!-- Measurements Section -->
-            <section id="measurements" class="section">
-                <h2>Todas as Medições</h2>
-                
-                <!-- Filters -->
-                <div class="filters">
-                    <div class="filter-group">
-                        <label for="date-filter">Filtrar por Data:</label>
-                        <input type="date" id="date-filter" onchange="applyFilters()">
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label for="sample-filter">Filtrar por Amostra:</label>
-                        <select id="sample-filter" onchange="applyFilters()">
-                            <option value="">Todas as amostras</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label for="operator-filter">Filtrar por Operador:</label>
-                        <select id="operator-filter" onchange="applyFilters()">
-                            <option value="">Todos os operadores</option>
-                        </select>
-                    </div>
-                    
-                    <button class="btn-secondary" onclick="clearFilters()">Limpar Filtros</button>
-                </div>
-                
-                <!-- Measurements Table -->
-                <div class="table-container">
-                    <table class="data-table" id="measurements-table">
-                        <thead>
-                            <tr>
-                                <th onclick="sortTable('id')">ID 📋</th>
-                                <th onclick="sortTable('sampleId')">Amostra 🧪</th>
-                                <th onclick="sortTable('area_um2')">Área (μm²) 📏</th>
-                                <th onclick="sortTable('area_pixels')">Área (pixels) 📐</th>
-                                <th onclick="sortTable('dataHora')">Data/Hora ⏰</th>
-                                <th onclick="sortTable('operator')">Operador 👤</th>
-                                <th>Imagem 📷</th>
-                            </tr>
-                        </thead>
-                        <tbody id="all-measurements">
-                            <!-- Dados carregados dinamicamente -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+                            <!-- System Status -->
+                            <div class="bg-white rounded-2xl p-6 shadow-sm mb-6">
+                                <h3 class="text-lg font-semibold mb-4">Status do Sistema</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div class="flex items-center gap-3 p-4 bg-green-50 rounded-xl">
+                                        <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                                        <div>
+                                            <div class="text-sm font-medium text-green-800">Sistema Online</div>
+                                            <div class="text-xs text-green-600">Funcionando normalmente</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-4 bg-blue-50 rounded-xl">
+                                        <div class="w-3 h-3 bg-blue-400 rounded-full"></div>
+                                        <div>
+                                            <div class="text-sm font-medium text-blue-800">Banco de Dados</div>
+                                            <div class="text-xs text-blue-600">Conectado</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-4 bg-yellow-50 rounded-xl">
+                                        <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                                        <div>
+                                            <div class="text-sm font-medium text-yellow-800">Última Sincronização</div>
+                                            <div class="text-xs text-yellow-600" id="last-sync">Aguardando...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-            <!-- Samples Section -->
-            <section id="samples" class="section">
-                <h2>Amostras</h2>
-                <div class="samples-grid" id="samples-grid">
-                    <!-- Dados carregados dinamicamente -->
-                </div>
-            </section>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <!-- Data Management -->
+                                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                                            </svg>
+                                        </div>
+                                        <h3 class="text-lg font-semibold">Gerenciamento de Dados</h3>
+                                    </div>
+                                    <p class="text-sm text-neutral-600 mb-4">Importe dados de medições e amostras</p>
 
-            <!-- Charts Section -->
-            <section id="charts" class="section">
-                <h2>Gráficos e Análises</h2>
-                
-                <div class="charts-grid">
-                    <div class="chart-container">
-                        <h3>Distribuição de Áreas</h3>
-                        <canvas id="area-distribution-chart"></canvas>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <h3>Medições por Dia</h3>
-                        <canvas id="measurements-timeline-chart"></canvas>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <h3>Medições por Operador</h3>
-                        <canvas id="operator-chart"></canvas>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <h3>Tendência de Áreas</h3>
-                        <canvas id="area-trend-chart"></canvas>
-                    </div>
-                </div>
-            </section>
+                                    <div class="space-y-3">
+                                        <div>
+                                            <input type="file" id="measurements-file" accept=".json,.csv" style="display: none;" onchange="loadMeasurementsFile()">
+                                            <button class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm" onclick="document.getElementById('measurements-file').click()">
+                                                Carregar Medições
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <input type="file" id="samples-file" accept=".json,.csv" style="display: none;" onchange="loadSamplesFile()">
+                                            <button class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm" onclick="document.getElementById('samples-file').click()">
+                                                Carregar Amostras
+                                            </button>
+                                        </div>
+                                        <button class="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm" onclick="loadSampleData()">
+                                            Dados de Exemplo
+                                        </button>
+                                    </div>
+                                </div>
 
-            <!-- Settings Section -->
-            <section id="settings" class="section">
-                <h2>Configurações</h2>
-                
-                <div class="settings-grid">
-                    <div class="setting-card">
-                        <h3>Carregar Dados</h3>
-                        <p>Carregue um arquivo JSON com medições</p>
-                        <input type="file" id="file-input" accept=".json" onchange="loadDataFile()">
-                        <button class="btn-primary" onclick="document.getElementById('file-input').click()">
-                            Selecionar Arquivo
-                        </button>
-                    </div>
-                    
-                    <div class="setting-card">
-                        <h3>Atualização Automática</h3>
-                        <p>Recarregar dados automaticamente</p>
-                        <label class="switch">
-                            <input type="checkbox" id="auto-refresh" onchange="toggleAutoRefresh()">
-                            <span class="slider"></span>
-                        </label>
-                        <div class="refresh-interval">
-                            <label for="refresh-interval">Intervalo (segundos):</label>
-                            <input type="number" id="refresh-interval" value="30" min="5" max="300">
+                                <!-- Auto Refresh -->
+                                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                            </svg>
+                                        </div>
+                                        <h3 class="text-lg font-semibold">Atualização Automática</h3>
+                                    </div>
+                                    <p class="text-sm text-neutral-600 mb-4">Configure atualizações periódicas dos dados</p>
+
+                                    <div class="space-y-4">
+                                        <label class="flex items-center gap-3">
+                                            <input type="checkbox" id="auto-refresh" class="w-4 h-4 text-blue-600 border-neutral-300 rounded" onchange="toggleAutoRefresh()">
+                                            <span class="text-sm">Ativar atualização automática</span>
+                                        </label>
+
+                                        <div>
+                                            <label class="block text-sm font-medium text-neutral-700 mb-1">Intervalo (segundos):</label>
+                                            <select id="refresh-interval" class="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm">
+                                                <option value="10">10 segundos</option>
+                                                <option value="30" selected>30 segundos</option>
+                                                <option value="60">1 minuto</option>
+                                                <option value="300">5 minutos</option>
+                                                <option value="600">10 minutos</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="p-3 bg-neutral-50 rounded-lg">
+                                            <div class="text-xs text-neutral-600">Status: <span id="refresh-status" class="font-medium">Desativado</span></div>
+                                            <div class="text-xs text-neutral-600 mt-1">Próxima atualização: <span id="next-refresh">-</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Export Options -->
+                                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                            </svg>
+                                        </div>
+                                        <h3 class="text-lg font-semibold">Exportar Dados</h3>
+                                    </div>
+                                    <p class="text-sm text-neutral-600 mb-4">Baixe relatórios em diferentes formatos</p>
+
+                                    <div class="space-y-3">
+                                        <button class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm" onclick="exportData('csv')">
+                                            📄 Exportar CSV
+                                        </button>
+                                        <button class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm" onclick="exportData('json')">
+                                            🗃️ Exportar JSON
+                                        </button>
+                                        <button class="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm" onclick="exportData('pdf')">
+                                            📁 Relatório PDF
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Database Settings -->
+                                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <div class="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                                            </svg>
+                                        </div>
+                                        <h3 class="text-lg font-semibold">Banco de Dados</h3>
+                                    </div>
+                                    <p class="text-sm text-neutral-600 mb-4">Configurações de conexão e manutenção</p>
+
+                                    <div class="space-y-3">
+                                        <button class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm" onclick="testDatabaseConnection()">
+                                            Testar Conexão
+                                        </button>
+                                        <button class="w-full px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 text-sm" onclick="optimizeDatabase()">
+                                            Otimizar BD
+                                        </button>
+                                        <button class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm" onclick="backupDatabase()">
+                                            Fazer Backup
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- System Maintenance -->
+                                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            </svg>
+                                        </div>
+                                        <h3 class="text-lg font-semibold">Manutenção</h3>
+                                    </div>
+                                    <p class="text-sm text-neutral-600 mb-4">Operações de limpeza e manutenção</p>
+
+                                    <div class="space-y-3">
+                                        <button class="w-full px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 text-sm" onclick="clearCache()">
+                                            Limpar Cache
+                                        </button>
+                                        <button class="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm" onclick="resetAllData()">
+                                            Reset Completo
+                                        </button>
+                                    </div>
+
+                                    <div class="mt-4 p-3 bg-red-50 rounded-lg border border-red-200">
+                                        <div class="text-xs text-red-600">
+                                            ⚠️ Ações de reset são irreversíveis
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- About System -->
+                                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <div class="w-10 h-10 bg-neutral-100 rounded-xl flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                        </div>
+                                        <h3 class="text-lg font-semibold">Sobre o Sistema</h3>
+                                    </div>
+
+                                    <div class="space-y-3 text-sm text-neutral-600">
+                                        <div class="flex justify-between">
+                                            <span>Versão:</span>
+                                            <span class="font-medium">1.0.0</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span>Build:</span>
+                                            <span class="font-medium">2024.09.18</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span>Licença:</span>
+                                            <span class="font-medium">MIT</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span>Desenvolvedor:</span>
+                                            <span class="font-medium">Scanalyze Team</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-4 pt-4 border-t border-neutral-200">
+                                        <button class="w-full px-4 py-2 bg-neutral-600 text-white rounded-lg hover:bg-neutral-700 text-sm" onclick="showSystemLogs()">
+                                            Ver Logs do Sistema
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="setting-card">
-                        <h3>Exportar Dados</h3>
-                        <p>Baixar dados em diferentes formatos</p>
-                        <button class="btn-secondary" onclick="exportData('csv')">Exportar CSV</button>
-                        <button class="btn-secondary" onclick="exportData('json')">Exportar JSON</button>
-                    </div>
-                    
-                    <div class="setting-card">
-                        <h3>Limpar Cache</h3>
-                        <p>Limpar dados armazenados localmente</p>
-                        <button class="btn-danger" onclick="clearCache()">Limpar Cache</button>
-                    </div>
-                </div>
-            </section>
-        </main>
+                </main>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p>&copy; 2024 Sistema de Micromedição Automatizada - Dashboard Web</p>
-            <p>Última atualização: <span id="last-update">Nunca</span></p>
-        </footer>
+            </div>
+        </div>
     </div>
 
     <!-- Loading Overlay -->
-    <div id="loading-overlay" class="loading-overlay">
-        <div class="spinner"></div>
-        <p>Carregando dados...</p>
+    <div id="loading-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
+        <div class="bg-white rounded-2xl p-6 flex items-center gap-4">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+            <p class="text-neutral-700">Carregando dados...</p>
+        </div>
     </div>
 
     <!-- Scripts -->

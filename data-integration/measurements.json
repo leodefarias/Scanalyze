@@ -1,0 +1,81 @@
+{
+  "measurements": [
+    {
+      "id": "MEAS_1758239570",
+      "sampleId": "SAMPLE_1758239348",
+      "area_pixels": 141001.0,
+      "area_um2": 1410.01,
+      "dataHora": "2025-09-18 20:52:50",
+      "imagemId": "IMG_1758239570",
+      "nomeImagem": "IMG_1758239570.jpg",
+      "operator": "Operador",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1758239934",
+      "sampleId": "SAMPLE_1758239921",
+      "area_pixels": 79689.0,
+      "area_um2": 796.89,
+      "dataHora": "2025-09-18 20:58:54",
+      "imagemId": "IMG_1758239934",
+      "nomeImagem": "IMG_1758239934.jpg",
+      "operator": "Operador",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1758240098",
+      "sampleId": "SAMPLE_1758239936",
+      "area_pixels": 134977.0,
+      "area_um2": 1349.77,
+      "dataHora": "2025-09-18 21:01:38",
+      "imagemId": "IMG_1758240098",
+      "nomeImagem": "IMG_1758240098.jpg",
+      "operator": "Operador",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1758241704",
+      "sampleId": "SAMPLE_1758241696",
+      "area_pixels": 92755.5,
+      "area_um2": 927.55,
+      "dataHora": "2025-09-18 21:28:24",
+      "imagemId": "IMG_1758241704",
+      "nomeImagem": "IMG_1758241704.jpg",
+      "operator": "Operador",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1758241917",
+      "sampleId": "SAMPLE_1758241906",
+      "area_pixels": 131735.0,
+      "area_um2": 1317.35,
+      "dataHora": "2025-09-18 21:31:57",
+      "imagemId": "IMG_1758241917",
+      "nomeImagem": "IMG_1758241917.jpg",
+      "operator": "Operador",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1758242288",
+      "sampleId": "SAMPLE_1758242275",
+      "area_pixels": 99983.5,
+      "area_um2": 999.84,
+      "dataHora": "2025-09-18 21:38:08",
+      "imagemId": "IMG_1758242288",
+      "nomeImagem": "IMG_1758242288.jpg",
+      "operator": "Operador",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1758242547",
+      "sampleId": "SAMPLE_1758242444",
+      "area_pixels": 78286.5,
+      "area_um2": 782.87,
+      "dataHora": "2025-09-18 21:42:27",
+      "imagemId": "IMG_1758242547",
+      "nomeImagem": "IMG_1758242547.jpg",
+      "operator": "Operador",
+      "scale_pixels_per_um": 10.0
+    }
+  ]
+}

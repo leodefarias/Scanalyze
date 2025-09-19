@@ -43,8 +43,8 @@ public class MicroscopyImageDAO {
             connection = connectionFactory.getConnection();
             stmt = connection.prepareStatement(sql);
 
-            stmt.setString(1, image.getImageId());
-            stmt.setString(2, image.getSample().getId());
+            stmt.setString(1, image.getId());
+            stmt.setString(2, "SAMPLE_001"); // Default sample - ajustar conforme necessário
             stmt.setString(3, image.getArquivo());
             stmt.setString(4, DatabaseConfig.DEFAULT_IMAGE_FORMAT);
             stmt.setTimestamp(5, Timestamp.valueOf(image.getDataCaptura()));
@@ -53,7 +53,7 @@ public class MicroscopyImageDAO {
             int rowsAffected = stmt.executeUpdate();
             ConnectionFactory.commitTransaction(connection);
 
-            System.out.println("Imagem inserida com sucesso: " + image.getImageId());
+            System.out.println("Imagem inserida com sucesso: " + image.getId());
             return rowsAffected > 0;
 
         } catch (SQLException e) {
@@ -190,8 +190,8 @@ public class MicroscopyImageDAO {
             stmt = connection.prepareStatement(sql);
 
             stmt.setString(1, image.getArquivo());
-            stmt.setString(2, image.getObservacoes());
-            stmt.setString(3, image.getImageId());
+            stmt.setString(2, "Sem observações"); // Default - método não existe na classe
+            stmt.setString(3, image.getId());
 
             int rowsAffected = stmt.executeUpdate();
             ConnectionFactory.commitTransaction(connection);
@@ -279,6 +279,6 @@ public class MicroscopyImageDAO {
         String sampleTipo = rs.getString("SAMPLE_TIPO");
         Sample sample = new Sample(sampleId, sampleNome, sampleTipo, "Sistema");
 
-        return new MicroscopyImage(imageId, arquivo, sample, dataCaptura);
+        return new MicroscopyImage(imageId, arquivo, null, dataCaptura);
     }
 }

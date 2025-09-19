@@ -213,19 +213,16 @@ public class Measurement {
     public boolean validarMedicao() {
         boolean areaValida = this.area > 0;
         boolean sampleValida = this.sample != null;
-        boolean imagemValida = this.imagem != null;
-        
+
         if (!areaValida) {
             System.out.println("Erro: Área deve ser maior que zero");
         }
         if (!sampleValida) {
             System.out.println("Erro: Medição deve estar associada a uma amostra");
         }
-        if (!imagemValida) {
-            System.out.println("Erro: Medição deve ter uma imagem associada");
-        }
-        
-        return areaValida && sampleValida && imagemValida;
+
+        // Imagem é opcional para medições via API
+        return areaValida && sampleValida;
     }
 
     /**
