@@ -1,0 +1,53 @@
+Driver Oracle carregado com sucesso!
+Verificando conexão com banco de dados Oracle...
+Conexão estabelecida com sucesso!
+Teste de conexão: SUCESSO
+Database: Oracle
+Versão: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+Conexão com Oracle estabelecida com sucesso!
+Carregando dados existentes do banco de dados...
+Conexão estabelecida com sucesso!
+Encontradas 28 amostras
+Conexão fechada com sucesso!
+Carregadas 28 amostras do banco
+Conexão estabelecida com sucesso!
+Encontradas 64 medições
+Conexão fechada com sucesso!
+Carregadas 64 medições do banco
+Conexão estabelecida com sucesso!
+Encontrados 5 operadores ativos
+Conexão fechada com sucesso!
+Carregados 5 operadores do banco
+Inicializando sistema com integração ao banco de dados Oracle...
+Conexão estabelecida com sucesso!
+Encontrados 5 operadores ativos
+Conexão fechada com sucesso!
+Carregados 5 operadores existentes do banco
+Criando microscópios padrão...
+Microscópio Olympus BX53 funcionando corretamente
+Microscópio cadastrado com sucesso: Olympus BX53
+Microscópio Nikon Eclipse E200 funcionando corretamente
+Microscópio cadastrado com sucesso: Nikon Eclipse E200
+Conexão estabelecida com sucesso!
+Encontradas 28 amostras
+Conexão fechada com sucesso!
+Carregadas 28 amostras existentes do banco
+Conexão estabelecida com sucesso!
+Encontradas 64 medições
+Conexão fechada com sucesso!
+Carregadas 64 medições existentes do banco
+Sistema inicializado com sucesso - dados persistidos no Oracle!
+❌ Erro ao iniciar servidor: Endereço já em uso
+java.net.BindException: Endereço já em uso
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:565)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:344)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:301)
+	at java.base/sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:89)
+	at jdk.httpserver/sun.net.httpserver.ServerImpl.<init>(ServerImpl.java:144)
+	at jdk.httpserver/sun.net.httpserver.HttpServerImpl.<init>(HttpServerImpl.java:50)
+	at jdk.httpserver/sun.net.httpserver.DefaultHttpServerProvider.createHttpServer(DefaultHttpServerProvider.java:35)
+	at jdk.httpserver/com.sun.net.httpserver.HttpServer.create(HttpServer.java:152)
+	at br.com.micromedicao.api.ApiServer.start(ApiServer.java:38)
+	at br.com.micromedicao.api.ApiServer.main(ApiServer.java:356)

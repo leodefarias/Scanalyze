@@ -1,0 +1,15 @@
+{
+  "name": "scanalyze-dashboard",
+  "version": "2.0.0",
+  "description": "Dashboard web responsivo para o Sistema de Micromedição Scanalyze",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/input.css -o ./styles.css --minify",
+    "watch:css": "tailwindcss -i ./src/input.css -o ./styles.css --watch"
+  },
+  "keywords": ["microscope", "measurement", "dashboard"],
+  "author": "Scanalyze Team",
+  "license": "MIT",
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}

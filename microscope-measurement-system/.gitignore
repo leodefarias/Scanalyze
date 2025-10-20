@@ -1,0 +1,75 @@
+# ============================================================================
+# .gitignore - Sistema de Micromedição Scanalyze
+# ============================================================================
+
+# Credenciais e Secrets (NUNCA commite!)
+.env
+.env.local
+.env.production
+*.pem
+*.key
+secrets/
+
+# Azure
+.azure/
+azure-credentials.json
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+python-vision/venv/
+python-vision/.venv/
+*.egg-info/
+dist/
+build/
+
+# Java
+backend-java/classes/
+backend-java/target/
+*.class
+
+# Node
+frontend-dashboard/node_modules/
+frontend-dashboard/package-lock.json
+frontend-dashboard/.next/
+frontend-dashboard/out/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Dados temporários
+data-integration/*.jpg
+data-integration/*.png
+data-integration/*.json
+!data-integration/.gitkeep
+
+# Build outputs
+*.jar
+!backend-java/ojdbc8.jar
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+credenciais.txt

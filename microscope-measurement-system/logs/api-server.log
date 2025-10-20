@@ -1,0 +1,63 @@
+Driver Oracle carregado com sucesso!
+Verificando conexão com banco de dados Oracle...
+Conexão estabelecida com sucesso!
+Teste de conexão: SUCESSO
+Database: Oracle
+Versão: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+Conexão com Oracle estabelecida com sucesso!
+Carregando dados existentes do banco de dados...
+Conexão estabelecida com sucesso!
+Encontradas 50 amostras
+Conexão fechada com sucesso!
+Carregadas 50 amostras do banco
+Conexão estabelecida com sucesso!
+Encontradas 46 medições
+Conexão fechada com sucesso!
+Carregadas 46 medições do banco
+Conexão estabelecida com sucesso!
+Encontrados 5 operadores ativos
+Conexão fechada com sucesso!
+Carregados 5 operadores do banco
+Inicializando sistema com integração ao banco de dados Oracle...
+Conexão estabelecida com sucesso!
+Encontrados 5 operadores ativos
+Conexão fechada com sucesso!
+Carregados 5 operadores existentes do banco
+Criando microscópios padrão...
+Microscópio Olympus BX53 funcionando corretamente
+Microscópio cadastrado com sucesso: Olympus BX53
+Microscópio Nikon Eclipse E200 funcionando corretamente
+Microscópio cadastrado com sucesso: Nikon Eclipse E200
+Conexão estabelecida com sucesso!
+Encontradas 50 amostras
+Conexão fechada com sucesso!
+Carregadas 50 amostras existentes do banco
+Conexão estabelecida com sucesso!
+Encontradas 46 medições
+Conexão fechada com sucesso!
+Carregadas 46 medições existentes do banco
+Sistema inicializado com sucesso - dados persistidos no Oracle!
+==============================================
+🚀 SCANALYZE API SERVER INICIADO
+📡 Porta: 8081
+🌐 URL Base: http://localhost:8081
+📋 Endpoints disponíveis:
+   GET  /api/samples        - Lista amostras
+   POST /api/samples        - Cadastra amostra
+   GET  /api/measurements   - Lista medições
+   POST /api/measurements   - Registra medição
+   GET  /api/operators      - Lista operadores
+   GET  /api/microscopes    - Lista microscópios
+   GET  /api/stats          - Estatísticas gerais
+   POST /api/export         - Exporta dados
+   GET  /api/images/{nome}  - Serve imagens
+   GET  /api/health         - Health check
+==============================================
+✅ Servidor iniciado com sucesso!
+🔗 Teste: http://localhost:8081/api/health
+📊 Dashboard: Abra o frontend em outra aba
+⏹️  Para parar: Ctrl+C
+
+🛑 Parando servidor...
+🛑 Servidor API parado

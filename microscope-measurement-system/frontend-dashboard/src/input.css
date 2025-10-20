@@ -1,0 +1,133 @@
+/* Tailwind CSS Directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== CUSTOM BASE STYLES ===== */
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    color: #0a0a0a;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+
+  /* Focus styles */
+  input:focus,
+  select:focus,
+  button:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+
+  /* Chart.js responsive canvas container */
+  canvas {
+    max-width: 100%;
+    height: auto !important;
+  }
+}
+
+/* ===== CUSTOM COMPONENTS ===== */
+@layer components {
+  /* Section management */
+  .section-content {
+    display: none;
+  }
+
+  .section-content.active {
+    display: block;
+  }
+
+  /* Navigation link active state */
+  .nav-link.active {
+    @apply bg-neutral-100 font-semibold;
+  }
+
+  /* List items */
+  .list-item {
+    @apply flex items-center justify-between py-3;
+  }
+
+  .list-item:not(:last-child) {
+    @apply border-b border-neutral-100;
+  }
+
+  /* Better scrolling on iOS */
+  .overflow-y-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ===== CUSTOM UTILITIES ===== */
+@layer utilities {
+  /* Smooth transitions */
+  .transition-smooth {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+  }
+
+  /* Mobile specific */
+  @media (max-width: 767px) {
+    /* Better touch targets on mobile */
+    button,
+    a,
+    input,
+    select {
+      min-height: 44px;
+    }
+
+    /* Larger tap targets for table headers */
+    table th {
+      padding: 0.75rem 1rem;
+    }
+
+    /* Reduce font sizes on very small screens */
+    @media (max-width: 374px) {
+      html {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+/* ===== LEGACY COMPATIBILITY ===== */
+/* Mantém compatibilidade com código JavaScript existente */
+
+/* Animate spin */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}

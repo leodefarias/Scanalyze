@@ -1,0 +1,3 @@
+#!/bin/bash
+# Sistema de Micromedição Automatizada - Instalador Principal
+exec scripts/install.sh "$@"

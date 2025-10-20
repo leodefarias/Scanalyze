@@ -1,0 +1,109 @@
+{
+  "measurements": [
+    {
+      "id": "MEAS_1758676482",
+      "sampleId": "SAMPLE_1758676473",
+      "area": 2533.44,
+      "dataHora": "2025-09-23 22:14:42",
+      "imagemArquivo": ""
+    },
+    {
+      "id": "MEAS_1758676505",
+      "sampleId": "SAMPLE_1758676483",
+      "area": 2215.8,
+      "dataHora": "2025-09-23 22:15:05",
+      "imagemArquivo": ""
+    },
+    {
+      "id": "MEAS_1758676472",
+      "sampleId": "SAMPLE_1758676456",
+      "area": 3126.09,
+      "dataHora": "2025-09-23 22:14:32",
+      "imagemArquivo": ""
+    },
+    {
+      "id": "MEAS_1759152656",
+      "sampleId": "SAMPLE_1759152593",
+      "area_pixels": 140891.0,
+      "area_um2": 1408.91,
+      "dataHora": "2025-09-29 10:30:56",
+      "imagemId": "IMG_1759152656",
+      "nomeImagem": "IMG_1759152656.jpg",
+      "operator": "Operador",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1759152656",
+      "sampleId": "SAMPLE_1759152593",
+      "area_pixels": 140891.0,
+      "area_um2": 1408.91,
+      "dataHora": "2025-09-29 10:30:56",
+      "imagemId": "IMG_1759152656",
+      "nomeImagem": "IMG_1759152656.jpg",
+      "operator": "Operador",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1759153200",
+      "sampleId": "SAMPLE_1759153181",
+      "area_pixels": 143483.5,
+      "area_um2": 1434.835,
+      "dataHora": "2025-09-29 10:40:00",
+      "imagemId": "IMG_1759153200",
+      "nomeImagem": "IMG_1759153200.jpg",
+      "operator": "Operador",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1759153200",
+      "sampleId": "SAMPLE_1759153181",
+      "area_pixels": 143483.5,
+      "area_um2": 1434.835,
+      "dataHora": "2025-09-29 10:40:00",
+      "imagemId": "IMG_1759153200",
+      "nomeImagem": "IMG_1759153200.jpg",
+      "operator": "Operador",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1759153507",
+      "sampleId": "SAMPLE_1759153497",
+      "area_pixels": 144719.5,
+      "area_um2": 1447.195,
+      "dataHora": "2025-09-29 10:45:07",
+      "imagemId": "IMG_1759153507",
+      "nomeImagem": "IMG_1759153507.jpg",
+      "operator": "Operador",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1759156200",
+      "sampleId": "SAMPLE_1759156068",
+      "area_pixels": 144402.0,
+      "area_um2": 1444.02,
+      "dataHora": "2025-09-29 11:30:00",
+      "imagemId": "IMG_1759156200",
+      "nomeImagem": "IMG_1759156200.jpg",
+      "operator": "Operador",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1759179222",
+      "sampleId": "SAMPLE_1759179207",
+      "area_pixels": 146782.5,
+      "area_um2": 1467.825,
+      "dataHora": "2025-09-29 17:53:42",
+      "imagemId": "IMG_1759179222",
+      "nomeImagem": "IMG_1759179222.jpg",
+      "operator": "Operador",
+      "scale_pixels_per_um": 10.0
+    },
+    {
+      "id": "MEAS_1759236925",
+      "sampleId": "SAMPLE_1759236893",
+      "area_pixels": 110940.5,
+      "area_um2": 1109.405,
+      "dataHora": "2025-09-30 09:55:25",
+      "imagemId": "IMG_1759236925",
+      "nomeImagem": "IMG_1759236925.jpg",
+      "imagemBytes": 

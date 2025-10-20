@@ -1,0 +1,46 @@
+{
+  "samples": [
+    {
+      "id": "SAMPLE_002",
+      "nome": "Tecido Muscular",
+      "tipo": "Tecido",
+      "dataColeta": "2025-09-23 22:14:09",
+      "operadorResponsavel": "Maria Santos"
+    },
+    {
+      "id": "SAMPLE_001",
+      "nome": "Sangue Paciente A",
+      "tipo": "Sangue",
+      "dataColeta": "2025-09-23 22:14:09",
+      "operadorResponsavel": "Dr. João Silva"
+    },
+    {
+      "id": "SAMPLE_1758676473",
+      "nome": "Amostra SAMPLE_1758676473",
+      "tipo": "Captura GUI",
+      "dataColeta": "2025-09-23 22:14:42",
+      "operadorResponsavel": "Operador"
+    },
+    {
+      "id": "SAMPLE_003",
+      "nome": "Célula Neural",
+      "tipo": "Neurônio",
+      "dataColeta": "2025-09-23 22:14:09",
+      "operadorResponsavel": "Carlos Oliveira"
+    },
+    {
+      "id": "SAMPLE_1758676483",
+      "nome": "Amostra SAMPLE_1758676483",
+      "tipo": "Captura GUI",
+      "dataColeta": "2025-09-23 22:15:05",
+      "operadorResponsavel": "Operador"
+    },
+    {
+      "id": "SAMPLE_1758676456",
+      "nome": "Amostra SAMPLE_1758676456",
+      "tipo": "Captura GUI",
+      "dataColeta": "2025-09-23 22:14:32",
+      "operadorResponsavel": "Operador"
+    }
+  ]
+}

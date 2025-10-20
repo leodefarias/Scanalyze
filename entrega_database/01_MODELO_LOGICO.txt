@@ -1,0 +1,340 @@
+=============================================================================
+SISTEMA DE MICROMEDIÇÃO AUTOMATIZADA - SCANALYZE
+MODELO LÓGICO-RELACIONAL
+=============================================================================
+
+Autor: Sistema de Micromedição Automatizada
+Data: 2025
+Versão: 1.0
+
+=============================================================================
+DESCRIÇÃO DO SISTEMA
+=============================================================================
+
+O Scanalyze é um sistema de micromedição automatizada para laboratórios médicos
+que substitui processos manuais de análise microscópica. O sistema captura
+imagens digitais de amostras biológicas, processa-as automaticamente e realiza
+medições precisas utilizando algoritmos de visão computacional.
+
+=============================================================================
+MODELO LÓGICO-RELACIONAL - ESTRUTURA DAS TABELAS
+=============================================================================
+
+-------------------------------------------------------------------------------
+TABELA 1: TB_OPERATORS
+-------------------------------------------------------------------------------
+Descrição: Armazena informações dos operadores do sistema
+
+Atributos:
+  ID                  NUMBER          NOT NULL    [PK] Chave primária
+  OPERATOR_ID         VARCHAR2(50)    NOT NULL    [UK] Identificador único
+  NOME                VARCHAR2(100)   NOT NULL    Nome completo
+  EMAIL               VARCHAR2(150)   NOT NULL    [UK] Email único
+  NIVEL_ACESSO        VARCHAR2(20)    NOT NULL    Nível: ADMIN|TECNICO|OPERADOR
+  DATA_CRIACAO        DATE            DEFAULT SYSDATE
+  ATIVO               CHAR(1)         DEFAULT 'S' Status: S|N
+
+Constraints:
+  - PK_OPERATORS: PRIMARY KEY (ID)
+  - UK_OPERATORS_OPERATOR_ID: UNIQUE (OPERATOR_ID)
+  - UK_OPERATORS_EMAIL: UNIQUE (EMAIL)
+  - CK_OPERATORS_NIVEL_ACESSO: CHECK (NIVEL_ACESSO IN ('ADMIN','TECNICO','OPERADOR'))
+  - CK_OPERATORS_ATIVO: CHECK (ATIVO IN ('S','N'))
+
+Índices:
+  - IDX_OPERATORS_EMAIL: INDEX (EMAIL)
+  - IDX_OPERATORS_NIVEL_ACESSO: INDEX (NIVEL_ACESSO)
+  - IDX_OPERATORS_ATIVO: INDEX (ATIVO)
+
+-------------------------------------------------------------------------------
+TABELA 2: TB_DIGITAL_MICROSCOPES
+-------------------------------------------------------------------------------
+Descrição: Cadastro dos microscópios digitais disponíveis
+
+Atributos:
+  ID                  NUMBER          NOT NULL    [PK] Chave primária
+  MICROSCOPE_ID       VARCHAR2(50)    NOT NULL    [UK] Identificador único
+  MODELO              VARCHAR2(100)   NOT NULL    Modelo do equipamento
+  FABRICANTE          VARCHAR2(100)   NOT NULL    Fabricante
+  NUMERO_SERIE        VARCHAR2(100)   NULL        [UK] Número de série único
+  MAGNIFICACAO_MAXIMA NUMBER(10,2)    NULL        Magnificação máxima (ex: 1000x)
+  ESCALA_PIXELS_UM    NUMBER(10,4)    DEFAULT 10.0  Escala pixels/micrômetro
+  RESOLUCAO_MAXIMA    VARCHAR2(20)    NULL        Resolução (ex: 1920x1080)
+  DATA_AQUISICAO      DATE            NULL        Data de aquisição
+  STATUS              VARCHAR2(20)    DEFAULT 'ATIVO'  Status do equipamento
+  OBSERVACOES         VARCHAR2(500)   NULL        Observações gerais
+  DATA_CRIACAO        DATE            DEFAULT SYSDATE
+
+Constraints:
+  - PK_DIGITAL_MICROSCOPES: PRIMARY KEY (ID)
+  - UK_DIGITAL_MICROSCOPES_ID: UNIQUE (MICROSCOPE_ID)
+  - UK_DIGITAL_MICROSCOPES_SERIE: UNIQUE (NUMERO_SERIE)
+  - CK_DIGITAL_MICROSCOPES_STATUS: CHECK (STATUS IN ('ATIVO','INATIVO','MANUTENCAO'))
+
+Índices:
+  - IDX_MICROSCOPES_STATUS: INDEX (STATUS)
+  - IDX_MICROSCOPES_FABRICANTE: INDEX (FABRICANTE)
+
+-------------------------------------------------------------------------------
+TABELA 3: TB_SAMPLES
+-------------------------------------------------------------------------------
+Descrição: Amostras biológicas coletadas para análise
+
+Atributos:
+  ID                      NUMBER          NOT NULL    [PK] Chave primária
+  SAMPLE_ID               VARCHAR2(50)    NOT NULL    [UK] Identificador único
+  NOME                    VARCHAR2(200)   NOT NULL    Nome descritivo
+  TIPO                    VARCHAR2(100)   NOT NULL    Tipo (sangue, tecido, etc)
+  DATA_COLETA             DATE            NOT NULL    Data/hora da coleta
+  OPERADOR_RESPONSAVEL    VARCHAR2(100)   NOT NULL    Operador que coletou
+  DESCRICAO               VARCHAR2(1000)  NULL        Descrição detalhada
+  PACIENTE_ID             VARCHAR2(50)    NULL        ID do paciente
+  LOCALIZACAO_ANATOMICA   VARCHAR2(200)   NULL        Localização anatômica
+  METODO_PREPARACAO       VARCHAR2(200)   NULL        Método de preparação
+  DATA_CRIACAO            DATE            DEFAULT SYSDATE
+  STATUS                  VARCHAR2(20)    DEFAULT 'ATIVA'  Status da amostra
+
+Constraints:
+  - PK_SAMPLES: PRIMARY KEY (ID)
+  - UK_SAMPLES_SAMPLE_ID: UNIQUE (SAMPLE_ID)
+  - CK_SAMPLES_STATUS: CHECK (STATUS IN ('ATIVA','PROCESSADA','ARQUIVADA'))
+
+Índices:
+  - IDX_SAMPLES_TIPO: INDEX (TIPO)
+  - IDX_SAMPLES_DATA_COLETA: INDEX (DATA_COLETA)
+  - IDX_SAMPLES_STATUS: INDEX (STATUS)
+  - IDX_SAMPLES_OPERADOR_RESP: INDEX (OPERADOR_RESPONSAVEL)
+
+-------------------------------------------------------------------------------
+TABELA 4: TB_MICROSCOPY_IMAGES
+-------------------------------------------------------------------------------
+Descrição: Imagens microscópicas capturadas
+
+Atributos:
+  ID                  NUMBER          NOT NULL    [PK] Chave primária
+  IMAGE_ID            VARCHAR2(50)    NOT NULL    [UK] Identificador único
+  NOME_ARQUIVO        VARCHAR2(500)   NOT NULL    Nome do arquivo
+  IMAGEM_BLOB         BLOB            NULL        Conteúdo binário da imagem
+  RESOLUCAO           VARCHAR2(20)    NULL        Resolução (ex: 1920x1080)
+  TAMANHO_ARQUIVO     NUMBER          NULL        Tamanho em bytes
+  FORMATO             VARCHAR2(10)    DEFAULT 'JPEG'  Formato do arquivo
+  DATA_CRIACAO        DATE            DEFAULT SYSDATE
+  OBSERVACOES         VARCHAR2(1000)  NULL        Observações
+
+Constraints:
+  - PK_MICROSCOPY_IMAGES: PRIMARY KEY (ID)
+  - UK_MICROSCOPY_IMAGES_ID: UNIQUE (IMAGE_ID)
+  - CK_MICROSCOPY_IMAGES_FORMATO: CHECK (FORMATO IN ('JPEG','JPG','PNG','TIFF','BMP'))
+
+Índices:
+  - IDX_IMAGES_FORMATO: INDEX (FORMATO)
+
+-------------------------------------------------------------------------------
+TABELA 5: TB_MEASUREMENTS (TABELA CENTRAL)
+-------------------------------------------------------------------------------
+Descrição: Medições realizadas nas imagens microscópicas
+
+Atributos:
+  ID                          NUMBER          NOT NULL    [PK] Chave primária
+  MEASUREMENT_ID              VARCHAR2(50)    NOT NULL    [UK] Identificador único
+  SAMPLE_ID_FK                NUMBER          NULL        [FK] → TB_SAMPLES.ID
+  IMAGE_ID_FK                 NUMBER          NULL        [FK] → TB_MICROSCOPY_IMAGES.ID
+  MICROSCOPE_ID_FK            NUMBER          NULL        [FK] → TB_DIGITAL_MICROSCOPES.ID
+  OPERATOR_ID_FK              NUMBER          NULL        [FK] → TB_OPERATORS.ID
+  AREA_PIXELS                 NUMBER          NOT NULL    Área em pixels
+  AREA_MICROMETERS            NUMBER(15,6)    NOT NULL    Área em μm²
+  SCALE_PIXELS_PER_UM         NUMBER(10,4)    NOT NULL    Escala pixels/μm
+  DATA_MEDICAO                DATE            NOT NULL    Data/hora da medição
+  METODO_PROCESSAMENTO        VARCHAR2(100)   NULL        Método usado
+  PARAMETROS_PROCESSAMENTO    VARCHAR2(1000)  NULL        Parâmetros (JSON)
+  OBSERVACOES                 VARCHAR2(1000)  NULL        Observações
+  VALIDADA                    CHAR(1)         DEFAULT 'N' Validada: S|N
+  DATA_VALIDACAO              DATE            NULL        Data da validação
+  OPERADOR_VALIDACAO          VARCHAR2(100)   NULL        Quem validou
+  DATA_CRIACAO                DATE            DEFAULT SYSDATE
+
+Constraints:
+  - PK_MEASUREMENTS: PRIMARY KEY (ID)
+  - UK_MEASUREMENTS_ID: UNIQUE (MEASUREMENT_ID)
+  - FK_MEASUREMENTS_SAMPLE: FOREIGN KEY (SAMPLE_ID_FK) → TB_SAMPLES(ID)
+  - FK_MEASUREMENTS_IMAGE: FOREIGN KEY (IMAGE_ID_FK) → TB_MICROSCOPY_IMAGES(ID)
+  - FK_MEASUREMENTS_MICROSCOPE: FOREIGN KEY (MICROSCOPE_ID_FK) → TB_DIGITAL_MICROSCOPES(ID)
+  - FK_MEASUREMENTS_OPERATOR: FOREIGN KEY (OPERATOR_ID_FK) → TB_OPERATORS(ID)
+  - CK_MEASUREMENTS_AREA_PIXELS: CHECK (AREA_PIXELS > 0)
+  - CK_MEASUREMENTS_AREA_UM: CHECK (AREA_MICROMETERS > 0)
+  - CK_MEASUREMENTS_SCALE: CHECK (SCALE_PIXELS_PER_UM > 0)
+  - CK_MEASUREMENTS_VALIDADA: CHECK (VALIDADA IN ('S','N'))
+
+Índices:
+  - IDX_MEASUREMENTS_DATA_MEDICAO: INDEX (DATA_MEDICAO)
+  - IDX_MEASUREMENTS_VALIDADA: INDEX (VALIDADA)
+  - IDX_MEASUREMENTS_AREA_UM: INDEX (AREA_MICROMETERS)
+
+=============================================================================
+RELACIONAMENTOS E CARDINALIDADES
+=============================================================================
+
+1. TB_OPERATORS ──(1:N)──> TB_MEASUREMENTS
+   Um operador pode realizar várias medições
+   Cada medição é realizada por um operador
+
+2. TB_DIGITAL_MICROSCOPES ──(1:N)──> TB_MEASUREMENTS
+   Um microscópio pode ser usado em várias medições
+   Cada medição é realizada com um microscópio
+
+3. TB_SAMPLES ──(1:N)──> TB_MEASUREMENTS
+   Uma amostra pode ter várias medições
+   Cada medição refere-se a uma amostra
+
+4. TB_MICROSCOPY_IMAGES ──(1:N)──> TB_MEASUREMENTS
+   Uma imagem pode ter várias medições
+   Cada medição é baseada em uma imagem
+
+=============================================================================
+DIAGRAMA DE RELACIONAMENTO (ASCII)
+=============================================================================
+
+                    ┌─────────────────────┐
+                    │   TB_OPERATORS      │
+                    ├─────────────────────┤
+                    │ ID (PK)             │
+                    │ OPERATOR_ID (UK)    │
+                    │ NOME                │
+                    │ EMAIL (UK)          │
+                    │ NIVEL_ACESSO        │
+                    │ DATA_CRIACAO        │
+                    │ ATIVO               │
+                    └──────────┬──────────┘
+                               │
+                               │ 1
+                               │
+                               │
+                               │ N
+       ┌───────────────────────┼───────────────────────┐
+       │                       │                       │
+       │                       │                       │
+┌──────▼──────────┐    ┌──────▼──────────────┐  ┌────▼──────────────┐
+│ TB_DIGITAL_     │    │ TB_MEASUREMENTS     │  │  TB_SAMPLES       │
+│ MICROSCOPES     │    ├─────────────────────┤  ├───────────────────┤
+├─────────────────┤    │ ID (PK)             │  │ ID (PK)           │
+│ ID (PK)         │    │ MEASUREMENT_ID (UK) │  │ SAMPLE_ID (UK)    │
+│ MICROSCOPE_ID   │────┤ OPERATOR_ID_FK (FK) │  │ NOME              │
+│ MODELO          │1  N│ MICROSCOPE_ID_FK ●──┼──│ TIPO              │
+│ FABRICANTE      │    │ SAMPLE_ID_FK (FK) ●─┼──│ DATA_COLETA       │
+│ NUMERO_SERIE    │    │ IMAGE_ID_FK (FK) ●  │1 │ OPERADOR_RESP     │
+│ STATUS          │    │ AREA_PIXELS         │N │ STATUS            │
+└─────────────────┘    │ AREA_MICROMETERS    │  └───────────────────┘
+                       │ SCALE_PIXELS_PER_UM │
+                       │ DATA_MEDICAO        │
+                       │ VALIDADA            │
+                       └──────────┬──────────┘
+                                  │
+                                  │ N
+                                  │
+                                  │
+                                  │ 1
+                    ┌─────────────▼──────────┐
+                    │ TB_MICROSCOPY_IMAGES   │
+                    ├────────────────────────┤
+                    │ ID (PK)                │
+                    │ IMAGE_ID (UK)          │
+                    │ NOME_ARQUIVO           │
+                    │ IMAGEM_BLOB            │
+                    │ RESOLUCAO              │
+                    │ FORMATO                │
+                    └────────────────────────┘
+
+Legenda:
+  PK  = Primary Key (Chave Primária)
+  FK  = Foreign Key (Chave Estrangeira)
+  UK  = Unique Key (Chave Única)
+  1:N = Relacionamento Um-para-Muitos
+  ●   = Foreign Key (ponta da seta)
+
+=============================================================================
+SEQUENCES (AUTO-INCREMENTO)
+=============================================================================
+
+1. SQ_OPERATORS             - Para TB_OPERATORS.ID
+2. SQ_DIGITAL_MICROSCOPES   - Para TB_DIGITAL_MICROSCOPES.ID
+3. SQ_SAMPLES               - Para TB_SAMPLES.ID
+4. SQ_MICROSCOPY_IMAGES     - Para TB_MICROSCOPY_IMAGES.ID
+5. SQ_MEASUREMENTS          - Para TB_MEASUREMENTS.ID
+
+Configuração:
+  - START WITH 1
+  - INCREMENT BY 1
+  - NOMAXVALUE
+  - NOCYCLE
+  - CACHE 10
+
+=============================================================================
+REGRAS DE NEGÓCIO E INTEGRIDADE
+=============================================================================
+
+1. Operadores:
+   - Cada operador deve ter um email único
+   - Níveis de acesso: ADMIN, TECNICO, OPERADOR
+   - Operadores inativos não devem realizar novas medições
+
+2. Microscópios:
+   - Cada microscópio tem um número de série único
+   - Status possíveis: ATIVO, INATIVO, MANUTENCAO
+   - Apenas microscópios ATIVO devem ser usados para novas medições
+
+3. Amostras:
+   - Cada amostra tem um identificador único
+   - Status possíveis: ATIVA, PROCESSADA, ARQUIVADA
+   - Data de coleta é obrigatória
+
+4. Imagens:
+   - Formatos suportados: JPEG, JPG, PNG, TIFF, BMP
+   - Armazenamento em BLOB para arquivos binários
+   - Resolução e tamanho são armazenados como metadata
+
+5. Medições:
+   - Tabela central que relaciona todas as outras
+   - Área em pixels e micrômetros devem ser > 0
+   - Escala de conversão deve ser > 0
+   - Medições podem ser validadas (VALIDADA = 'S') ou não ('N')
+   - Validação registra data e operador responsável
+   - Parâmetros de processamento armazenados em formato JSON
+
+6. Integridade Referencial:
+   - Todas as FKs devem referenciar registros existentes
+   - Deleções em cascata não configuradas (preserva histórico)
+   - Registros pai não podem ser deletados se tiverem filhos
+
+=============================================================================
+NORMALIZAÇÃO
+=============================================================================
+
+O modelo está na 3ª Forma Normal (3FN):
+
+1FN: Todos os atributos são atômicos (sem valores multivalorados)
+2FN: Não há dependências parciais (todos atributos não-chave dependem
+     totalmente da chave primária)
+3FN: Não há dependências transitivas (atributos não-chave não dependem
+     de outros atributos não-chave)
+
+=============================================================================
+OBSERVAÇÕES PARA IMPLEMENTAÇÃO NO ORACLE DATA MODELER
+=============================================================================
+
+1. Criar um novo modelo lógico
+2. Adicionar as 5 tabelas (Entities) conforme especificado
+3. Definir atributos com tipos de dados Oracle apropriados
+4. Marcar PKs, UKs e FKs conforme documentado
+5. Criar relacionamentos 1:N entre as tabelas:
+   - TB_OPERATORS → TB_MEASUREMENTS (FK: OPERATOR_ID_FK)
+   - TB_DIGITAL_MICROSCOPES → TB_MEASUREMENTS (FK: MICROSCOPE_ID_FK)
+   - TB_SAMPLES → TB_MEASUREMENTS (FK: SAMPLE_ID_FK)
+   - TB_MICROSCOPY_IMAGES → TB_MEASUREMENTS (FK: IMAGE_ID_FK)
+6. Adicionar CHECKs e DEFAULTs conforme especificado
+7. Documentar cada tabela e coluna usando as descrições fornecidas
+8. Gerar diagrama entidade-relacionamento
+9. Exportar DDL para validação
+
+=============================================================================
+FIM DO DOCUMENTO - MODELO LÓGICO
+=============================================================================

@@ -1,0 +1,63 @@
+# ============================================================================
+# Docker Compose - Sistema de Micromedição Scanalyze
+# Para desenvolvimento e testes locais
+# ============================================================================
+
+version: '3.8'
+
+services:
+  # Backend API Java
+  backend:
+    build:
+      context: ./backend-java
+      dockerfile: Dockerfile
+    container_name: scanalyze-api
+    ports:
+      - "8081:8081"
+    environment:
+      # Configurações do Oracle (usar .env para produção)
+      ORACLE_HOST: ${ORACLE_HOST:-oracle.fiap.com.br}
+      ORACLE_PORT: ${ORACLE_PORT:-1521}
+      ORACLE_SID: ${ORACLE_SID:-orcl}
+      ORACLE_USER: ${ORACLE_USER:-RM555211}
+      ORACLE_PASSWORD: ${ORACLE_PASSWORD}
+      # Configurações da aplicação
+      PORT: 8081
+      JAVA_OPTS: "-Xmx512m -Xms256m"
+    volumes:
+      # Compartilha diretório de dados com host
+      - ./data-integration:/app/data-integration
+    networks:
+      - scanalyze-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend (servidor web estático simples para testes)
+  frontend:
+    image: nginx:alpine
+    container_name: scanalyze-frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend-dashboard:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - scanalyze-network
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+networks:
+  scanalyze-network:
+    driver: bridge
+
+# Para rodar:
+# 1. Criar arquivo .env com ORACLE_PASSWORD
+# 2. docker-compose up -d
+# 3. Acessar http://localhost:3000 (frontend)
+# 4. API disponível em http://localhost:8081
